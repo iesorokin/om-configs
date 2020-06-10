@@ -1,0 +1,29 @@
+server:
+  port: 8098
+zipkin:
+  storage:
+    mem:
+      max-spans: 50000
+zuul.sensitive-headers: Set-Cookie
+turbine:
+  appConfig: gateway
+  clusterNameExpression: "'default'"
+  aggregator:
+    clusterConfig: default
+spring:
+  boot:
+    admin:
+      username: "${spring.security.user.name}"       #These two are needed so that the client
+      password: "${spring.security.user.password}"   #can register at the protected server api
+      client:
+        metadata:
+          user.name: "${spring.security.user.name}"          #These two are needed so that the server
+          user.password:  "${spring.security.user.password}" #can access the proteceted client endpoints
+      turbine:
+        clusters: default
+        location: UTIL
+      routes:
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      context-path: /
+
+

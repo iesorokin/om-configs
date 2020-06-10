@@ -1,0 +1,56 @@
+server:
+  port: 8090
+zuul:
+  ignoredServices: '*'
+  ignoredPatterns: /**/configs/**
+  routes:
+    banker:
+      path: /banker/**
+      serviceId: banker
+      stripPrefix: true
+      retryable: true
+    picker:
+      path: /picker/**
+      serviceId: picker
+      stripPrefix: true
+      retryable: true
+    courier:
+      path: /courier/**
+      serviceId: courier
+      sensitiveHeaders: Cookie,Set-Cookie
+      stripPrefix: false
+      retryable: true
+    dispatcher:
+      path: /order/**
+      serviceId: dispatcher
+      sensitiveHeaders: Cookie,Set-Cookie
+      stripPrefix: false
+      retryable: true
+    orchestrator:
+      path: /orchestrator/**
+      serviceId: orchestrator
+      sensitiveHeaders: Cookie,Set-Cookie
+      stripPrefix: false
+      retryable: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 7000
+
+hystrix.command.picker.execution.isolation.thread.timeoutInMilliseconds: 15000
+hystrix.command.banker.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.command.courier.execution.isolation.thread.timeoutInMilliseconds: 15000
+hystrix.command.orchestrator.execution.isolation.thread.timeoutInMilliseconds: 15000
+hystrix.command.dispatcher.execution.isolation.thread.timeoutInMilliseconds: 15000
+
+ribbon:
+  ServerListRefreshInterval: 100
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+  EnablePrimeConnections: true
+logging:
+  #turn back when logging from console will be added to all envs
+  file: logs/gateway.log

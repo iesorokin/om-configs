@@ -1,1 +1,1 @@
-# om-configs
+This repo contains properties of all services

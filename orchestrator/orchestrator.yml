@@ -1,0 +1,30 @@
+server:
+  port: 8094
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+    generate-ddl: false
+    show-sql: false
+  datasource:
+    driverClassName: org.postgresql.Driver
+
+camunda:
+  bpm:
+    authorization:
+      enabled: true
+    admin-user:
+      id: demo
+      password: demo
+  filter.create: All
+  license-file: file:${user.home}/.camunda/license.txt
+
+taskExecutor:
+  corePoolSize: 5
+  maxPoolSize: 20
+
+orchestrator:
+  consumer:
+    maxRetry: 10 # default
+    maxRetryPerDay: 288

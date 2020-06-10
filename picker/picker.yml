@@ -1,0 +1,4 @@
+server.port: 8093
+timeout:
+  connect: 15000
+  read: 15000
